@@ -16,8 +16,12 @@ class TenancyPeriodFactory extends Factory
      */
     public function definition(): array
     {
+        $startDate = $this->faker->dateTimeBetween('-1 year', 'now');
+        $endDate = $this->faker->dateTimeBetween($startDate, '+1 year');
+
         return [
-            //
+            'start_date' => $startDate->format('Y-m-d'),
+            'end_date' => $endDate->format('Y-m-d'),
         ];
     }
 }

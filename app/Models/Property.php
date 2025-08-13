@@ -9,4 +9,11 @@ class Property extends Model
 {
     /** @use HasFactory<\Database\Factories\PropertyFactory> */
     use HasFactory;
+
+    protected $fillable = ['building_id', 'name', 'monthly_rent'];
+
+    public function building()
+    {
+        return $this->belongsTo(Building::class);
+    }
 }

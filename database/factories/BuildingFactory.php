@@ -17,7 +17,8 @@ class BuildingFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->company(),
+            'zip_code' => $this->faker->postcode(),
         ];
     }
 }

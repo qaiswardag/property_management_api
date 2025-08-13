@@ -17,7 +17,8 @@ class TenantFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->company(),
+            'move_in_date' => $this->faker->date(),
         ];
     }
 }
