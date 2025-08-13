@@ -29,7 +29,15 @@ class CorporationController extends Controller
      */
     public function store(StoreCorporationRequest $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string',
+        ]);
+
+        return Corporation::create([
+            'name' => $request->name,
+            'height' => 0,
+            'type' => 'Corporation',
+        ]);
     }
 
     /**
@@ -37,7 +45,7 @@ class CorporationController extends Controller
      */
     public function show(Corporation $corporation)
     {
-        //
+        return $corporation;
     }
 
     /**
@@ -53,7 +61,12 @@ class CorporationController extends Controller
      */
     public function update(UpdateCorporationRequest $request, Corporation $corporation)
     {
-        //
+        $request->validate([
+            'name' => 'string',
+        ]);
+
+        $corporation->update($request->only('name'));
+        return $corporation;
     }
 
     /**
@@ -61,6 +74,7 @@ class CorporationController extends Controller
      */
     public function destroy(Corporation $corporation)
     {
-        //
+        $corporation->delete();
+        return response()->noContent();
     }
 }
