@@ -20,6 +20,7 @@ class TenancyPeriodFactory extends Factory
         $endDate = $this->faker->dateTimeBetween($startDate, '+1 year');
 
         return [
+            'name' => 'Lease ' . $startDate->format('M Y') . ' - ' . $endDate->format('M Y'),
             'start_date' => $startDate->format('Y-m-d'),
             'end_date' => $endDate->format('Y-m-d'),
         ];

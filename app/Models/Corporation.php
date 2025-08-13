@@ -9,4 +9,10 @@ class Corporation extends Model
 {
     /** @use HasFactory<\Database\Factories\CorporationFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'type',
+        'height',
+        'name',
+    ];
 }

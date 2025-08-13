@@ -10,7 +10,13 @@ class Building extends Model
     /** @use HasFactory<\Database\Factories\BuildingFactory> */
     use HasFactory;
 
-    protected $fillable = ['corporation_id', 'name', 'zip_code'];
+    protected $fillable = [
+        'corporation_id',
+        'type',
+        'height',
+        'name',
+        'zip_code',
+    ];
 
     public function corporation()
     {

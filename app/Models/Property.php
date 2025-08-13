@@ -10,7 +10,13 @@ class Property extends Model
     /** @use HasFactory<\Database\Factories\PropertyFactory> */
     use HasFactory;
 
-    protected $fillable = ['building_id', 'name', 'monthly_rent'];
+    protected $fillable = [
+        'building_id',
+        'type',
+        'height',
+        'name',
+        'monthly_rent',
+    ];
 
     public function building()
     {

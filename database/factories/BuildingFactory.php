@@ -16,8 +16,31 @@ class BuildingFactory extends Factory
      */
     public function definition(): array
     {
+        $capitals = [
+            "Kabul",
+            "London",
+            "Tokyo",
+            "Paris",
+            "Madrid",
+            "Rome",
+            "Seoul",
+            "Nairobi",
+            "Tripoli",
+            "Kigali",
+            "Lusaka",
+            "Dakar",
+            "Gaborone",
+            "Victoria",
+            "Kampala",
+            "Maputo",
+        ];
+
+        $firstName = $this->faker->unique()->randomElement($capitals);
+        $lastName = "Tower";
+
+
         return [
-            'name' => $this->faker->company(),
+            'name' => $firstName . ' ' . $lastName,
             'zip_code' => $this->faker->postcode(),
         ];
     }

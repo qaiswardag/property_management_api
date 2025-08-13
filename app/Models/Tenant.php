@@ -11,10 +11,12 @@ class Tenant extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'email',
-        'phone',
         'tenancy_period_id',
+        'type',
+        'height',
+        'name',
+        'move_in_date',
+        'move_in_date',
     ];
 
     public function tenancyPeriod()

@@ -17,7 +17,29 @@ class PropertyFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->company(),
+            'name' => ucfirst(fake()->word()) . ' ' . ucfirst(fake()->word()) . ' ' . fake()->randomElement([
+                'Villa',
+                'Estate',
+                'Manor',
+                'Cottage',
+                'Residence',
+                'Lodge',
+                'House',
+                'Mansion',
+                'Court',
+                'Gardens',
+                'Heights',
+                'Terrace',
+                'Place',
+                'Park',
+                'Retreat',
+                'Villa Nova',
+                'Haven',
+                'Point',
+                'Palace',
+                'Hills'
+            ]),
+
             'monthly_rent' => 10000,
         ];
     }

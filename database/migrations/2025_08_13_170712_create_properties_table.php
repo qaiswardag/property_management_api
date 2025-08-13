@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
             $table->foreignId('building_id')->constrained()->onDelete('cascade');
+            $table->string('type')->default('Property');
+            $table->unsignedInteger('height')->default(2);
             $table->string('name');
             $table->decimal('monthly_rent', 10, 2);
             $table->timestamps();

@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('tenancy_periods', function (Blueprint $table) {
             $table->id();
             $table->foreignId('property_id')->constrained()->onDelete('cascade');
+            $table->string('type')->default('Tenancy Period');
+            $table->unsignedInteger('height')->default(3);
+            $table->string('name');
             $table->boolean('active')->default(false);
             $table->date('start_date');
             $table->date('end_date')->nullable();

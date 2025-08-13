@@ -10,7 +10,15 @@ class TenancyPeriod extends Model
     /** @use HasFactory<\Database\Factories\TenancyPeriodFactory> */
     use HasFactory;
 
-    protected $fillable = ['property_id', 'start_date', 'end_date'];
+    protected $fillable = [
+        'property_id',
+        'type',
+        'height',
+        'name',
+        'start_date',
+        'end_date',
+        'active',
+    ];
 
     public function property()
     {

@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('tenants', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tenancy_period_id')->constrained()->onDelete('cascade');
+            $table->string('type')->default('Tenant');
+            $table->unsignedInteger('height')->default(4);
             $table->string('name');
             $table->date('move_in_date');
             $table->timestamps();
