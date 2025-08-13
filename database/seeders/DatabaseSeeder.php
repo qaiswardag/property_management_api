@@ -18,6 +18,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        User::factory()->create([
+            'name' => 'Qais Wardag',
+            'email' => 'qw@hococo.io',
+        ]);
+
         Corporation::factory(5)->create()->each(function ($corporation) {
             $buildings = Building::factory(rand(2, 3))->for($corporation)->create();
             $properties = $buildings->flatMap(fn($b) => Property::factory(rand(2, 4))->for($b)->create());
