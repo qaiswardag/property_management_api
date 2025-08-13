@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('tenancy_periods', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('property_id')->constrained()->onDelete('cascade');
+            $table->boolean('active')->default(false);
+            $table->date('start_date');
+            $table->date('end_date')->nullable();
             $table->timestamps();
         });
     }
