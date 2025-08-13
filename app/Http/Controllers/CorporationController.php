@@ -13,7 +13,7 @@ class CorporationController extends Controller
      */
     public function index()
     {
-        //
+        return Corporation::all();
     }
 
     /**

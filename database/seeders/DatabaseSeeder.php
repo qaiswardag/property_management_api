@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Qais Wardag',
             'email' => 'qw@hococo.io',
+            'password' => '123456',
         ]);
 
         Corporation::factory(5)->create()->each(function ($corporation) {
