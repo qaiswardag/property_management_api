@@ -9,9 +9,103 @@
 
 # Property Management API
 
-This API manages the hierarchy of corporations, buildings, properties, tenancy periods, and tenants.  
-It provides endpoints to add, view, and update nodes while enforcing relationships and business rules.  
+This API manages the hierarchy of corporations, buildings, properties, tenancy periods, and tenants.
+It provides endpoints to add, view, and update nodes while enforcing relationships and business rules.
 Designed for backend system design practice, it ensures data integrity and proper API structure.
+
+---
+
+## API Endpoints
+
+**Authentication:**
+
+-   `POST /api/login` — Obtain an API token (see Authentication section below)
+
+**Corporations, Buildings, Properties, Tenancy Periods, Tenants:**
+
+-   `GET /api/corporations`, `POST /api/corporations`, `GET /api/corporations/{id}`, etc. (standard CRUD)
+-   `GET /api/buildings`, `POST /api/buildings`, ...
+-   `GET /api/properties`, `POST /api/properties`, ...
+-   `GET /api/tenancy-periods`, `POST /api/tenancy-periods`, ...
+-   `GET /api/tenants`, `POST /api/tenants`, ...
+
+**Tree Node Operations:**
+
+-   `GET /api/nodes/{type}/{id}/children` — Get all direct children of a node (one layer only)
+-   `POST /api/nodes/{type}/{id}/move` — Change the parent node of a given node
+
+---
+
+## Authentication
+
+This API uses [Laravel Sanctum](https://laravel.com/docs/10.x/sanctum) for authentication.
+
+1. Register a user (if registration is enabled) or use a seeded user.
+2. Obtain a token via:
+
+    ```http
+    POST /api/login
+    Content-Type: application/json
+
+    {
+      "email": "user@example.com",
+      "password": "your_password"
+    }
+    ```
+
+3. Use the returned token as a Bearer token in the `Authorization` header for all requests.
+
+---
+
+## Business Rules
+
+-   **Properties** can only have Buildings as parents.
+-   **Tenancy Periods** can only have Properties as parents.
+-   **Tenants** can only have Tenancy Periods as parents.
+-   **Only one Tenancy Period can be active in a Property at a time.**
+-   **A Tenancy Period can have a maximum of 4 tenants at any time.**
+
+These rules are enforced on create, update, and move operations.
+
+---
+
+## Example Requests
+
+**Get all direct children of a Corporation (Buildings):**
+
+```http
+GET /api/nodes/Corporation/1/children
+Authorization: Bearer {token}
+```
+
+**Move a Property to a new Building:**
+
+```http
+POST /api/nodes/Property/5/move
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "new_parent_id": 2
+}
+```
+
+**Create a new Tenancy Period (will fail if another is active):**
+
+```http
+POST /api/tenancy-periods
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "property_id": 1,
+  "name": "2025 Lease",
+  "start_date": "2025-08-01",
+  "active": true
+}
+```
+
+---
 
 ## Database Design
 
