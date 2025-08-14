@@ -6,9 +6,16 @@ use App\Http\Requests\StorePropertyRequest;
 use App\Http\Requests\UpdatePropertyRequest;
 use App\Models\Building;
 use App\Models\Property;
+use Illuminate\Routing\Controller;
 
 class PropertyController extends Controller
 {
+    public function __construct()
+    {
+        // Auth middleware to all controller methods
+        $this->middleware('auth:sanctum');
+    }
+
     /**
      * Display a listing of the resource.
      */

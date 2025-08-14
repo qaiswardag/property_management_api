@@ -6,9 +6,15 @@ use App\Http\Requests\StoreTenantRequest;
 use App\Http\Requests\UpdateTenantRequest;
 use App\Models\TenancyPeriod;
 use App\Models\Tenant;
+use Illuminate\Routing\Controller;
 
 class TenantController extends Controller
 {
+    public function __construct()
+    {
+        // Auth middleware to all controller methods
+        $this->middleware('auth:sanctum');
+    }
     /**
      * Display a listing of the resource.
      */

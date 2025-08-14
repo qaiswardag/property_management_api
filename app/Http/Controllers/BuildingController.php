@@ -7,9 +7,16 @@ use App\Http\Requests\UpdateBuildingRequest;
 use App\Models\Building;
 use App\Models\Corporation;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class BuildingController extends Controller
 {
+    public function __construct()
+    {
+        // Auth middleware to all controller methods
+        $this->middleware('auth:sanctum');
+    }
+
     /**
      * Display a listing of the resource.
      */

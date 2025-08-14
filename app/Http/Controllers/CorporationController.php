@@ -5,9 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCorporationRequest;
 use App\Http\Requests\UpdateCorporationRequest;
 use App\Models\Corporation;
+use Illuminate\Routing\Controller;
+
 
 class CorporationController extends Controller
 {
+    public function __construct()
+    {
+        // Auth middleware to all controller methods
+        $this->middleware('auth:sanctum');
+    }
+
     /**
      * Display a listing of the resource.
      */
