@@ -46,6 +46,13 @@ class TenancyPeriodController extends Controller
 
         $property = Property::findOrFail($request->property_id);
 
+        if (($request->active ?? false) === true) {
+            $activeCount = TenancyPeriod::where('property_id', $property->id)->where('active', true)->count();
+            if ($activeCount > 0) {
+                return response()->json(['error' => 'Only one active tenancy period allowed per property'], 400);
+            }
+        }
+
         $tenancyPeriod = TenancyPeriod::create([
             'property_id' => $property->id,
             'name' => $request->name,
@@ -84,6 +91,18 @@ class TenancyPeriodController extends Controller
             $property = Property::findOrFail($request->property_id);
             $tenancyPeriod->property_id = $property->id;
             $tenancyPeriod->height = $property->height + 1;
+        } else {
+            $property = $tenancyPeriod->property;
+        }
+
+        if ($request->has('active') && $request->active == true && !$tenancyPeriod->active) {
+            $activeCount = TenancyPeriod::where('property_id', $property->id)
+                ->where('active', true)
+                ->where('id', '!=', $tenancyPeriod->id)
+                ->count();
+            if ($activeCount > 0) {
+                return response()->json(['error' => 'Only one active tenancy period allowed per property'], 400);
+            }
         }
 
         if ($request->has('name')) $tenancyPeriod->name = $request->name;
