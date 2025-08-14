@@ -8,6 +8,7 @@ use App\Http\Controllers\TenantController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TreeNodeController;
 
 Route::post('/login', [AuthController::class, 'store']);
 
@@ -23,4 +24,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('properties', PropertyController::class);
     Route::apiResource('tenancy-periods', TenancyPeriodController::class);
     Route::apiResource('tenants', TenantController::class);
+
+    // Tree node endpoints
+    Route::get('/nodes/{type}/{id}/children', [TreeNodeController::class, 'children']);
+    Route::post('/nodes/{type}/{id}/move', [TreeNodeController::class, 'move']);
 });
