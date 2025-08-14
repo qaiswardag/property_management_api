@@ -44,6 +44,12 @@ class TenantController extends Controller
 
         $tenancyPeriod = TenancyPeriod::findOrFail($request->tenancy_period_id);
 
+        // Enforce max 4 tenants per tenancy period
+        $tenantCount = Tenant::where('tenancy_period_id', $tenancyPeriod->id)->count();
+        if ($tenantCount >= 4) {
+            return response()->json(['error' => 'A tenancy period can have a maximum of 4 tenants'], 400);
+        }
+
         $tenant = Tenant::create([
             'tenancy_period_id' => $tenancyPeriod->id,
             'name' => $request->name,
@@ -84,6 +90,13 @@ class TenantController extends Controller
 
         if ($request->has('tenancy_period_id')) {
             $tenancyPeriod = TenancyPeriod::findOrFail($request->tenancy_period_id);
+            // Enforce max 4 tenants per tenancy period (excluding this tenant)
+            $tenantCount = Tenant::where('tenancy_period_id', $tenancyPeriod->id)
+                ->where('id', '!=', $tenant->id)
+                ->count();
+            if ($tenantCount >= 4) {
+                return response()->json(['error' => 'A tenancy period can have a maximum of 4 tenants'], 400);
+            }
             $tenant->tenancy_period_id = $tenancyPeriod->id;
             $tenant->height = $tenancyPeriod->height + 1;
         }
