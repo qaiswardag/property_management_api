@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTenantRequest;
 use App\Http\Requests\UpdateTenantRequest;
+use App\Models\TenancyPeriod;
 use App\Models\Tenant;
 
 class TenantController extends Controller
@@ -13,7 +14,7 @@ class TenantController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Tenant::all(), 200);
     }
 
     /**
@@ -29,7 +30,23 @@ class TenantController extends Controller
      */
     public function store(StoreTenantRequest $request)
     {
-        //
+        $request->validate([
+            'tenancy_period_id' => 'required|exists:tenancy_periods,id',
+            'name' => 'required|string|max:255',
+            'move_in_date' => 'required|date',
+        ]);
+
+        $tenancyPeriod = TenancyPeriod::findOrFail($request->tenancy_period_id);
+
+        $tenant = Tenant::create([
+            'tenancy_period_id' => $tenancyPeriod->id,
+            'name' => $request->name,
+            'move_in_date' => $request->move_in_date,
+            'height' => $tenancyPeriod->height + 1,
+            'type' => 'Tenant'
+        ]);
+
+        return response()->json(['status' => 'success', 'data' => $tenant], 201);
     }
 
     /**
@@ -37,7 +54,7 @@ class TenantController extends Controller
      */
     public function show(Tenant $tenant)
     {
-        //
+        return response()->json($tenant, 200);
     }
 
     /**
@@ -53,7 +70,24 @@ class TenantController extends Controller
      */
     public function update(UpdateTenantRequest $request, Tenant $tenant)
     {
-        //
+        $request->validate([
+            'tenancy_period_id' => 'sometimes|exists:tenancy_periods,id',
+            'name' => 'sometimes|string|max:255',
+            'move_in_date' => 'sometimes|date',
+        ]);
+
+        if ($request->has('tenancy_period_id')) {
+            $tenancyPeriod = TenancyPeriod::findOrFail($request->tenancy_period_id);
+            $tenant->tenancy_period_id = $tenancyPeriod->id;
+            $tenant->height = $tenancyPeriod->height + 1;
+        }
+
+        if ($request->has('name')) $tenant->name = $request->name;
+        if ($request->has('move_in_date')) $tenant->move_in_date = $request->move_in_date;
+
+        $tenant->save();
+
+        return response()->json(['status' => 'success', 'data' => $tenant], 200);
     }
 
     /**
@@ -61,6 +95,7 @@ class TenantController extends Controller
      */
     public function destroy(Tenant $tenant)
     {
-        //
+        $tenant->delete();
+        return response()->json(['status' => 'success', 'message' => 'Tenant deleted'], 200);
     }
 }

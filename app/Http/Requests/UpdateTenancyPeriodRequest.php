@@ -22,7 +22,11 @@ class UpdateTenancyPeriodRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'property_id' => 'sometimes|exists:properties,id',
+            'name' => 'string|min:2|max:255',
+            'start_date' => 'sometimes|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'active' => 'sometimes|boolean',
         ];
     }
 }
